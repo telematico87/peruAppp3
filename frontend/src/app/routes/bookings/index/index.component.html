@@ -1,0 +1,72 @@
+<mat-card>
+  <form [formGroup]="form" class="example-form">
+    <mat-form-field class="input-m-right" appearance="fill">
+      <mat-label>Filtrar por BookingId</mat-label>
+      <input formControlName="bookingId" matInput placeholder="Ej. 1" (change)="submit()">
+    </mat-form-field>
+
+    <mat-form-field class="input-m-right" appearance="fill">
+      <mat-label>Filtrar por precio</mat-label>
+      <input formControlName="bookingPrice" matInput placeholder="Ej. 20.00" (change)="submit()">
+    </mat-form-field>
+
+    <mat-form-field class="input-m-right" appearance="fill" *ngIf="this.form.get('bookingPrice').value" (change)="submit()">
+      <mat-label>Donde precio es</mat-label>
+      <select matNativeControl formControlName="wherePrice">
+        <option value="minor_equal">Menor o igual</option>
+        <option value="mayor_equal">Mayor o igual</option>
+      </select>
+    </mat-form-field>
+
+    <button type="button" (click)="cleanFilters()" class="input-m-right" mat-fab color="warn" aria-label="Borrar filtros">
+      <mat-icon>clear</mat-icon>
+    </button>
+
+    <a [routerLink]="['/bookings/create']" mat-flat-button color="primary">CREAR BOOKING</a>
+
+  </form>
+
+</mat-card>
+
+<table mat-table [dataSource]="items" class="mat-table-test">
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+
+  <mat-text-column name="id"></mat-text-column>
+
+  <!-- Booking Id Column -->
+  <ng-container matColumnDef="bookingId">
+    <th mat-header-cell *matHeaderCellDef> BookingId </th>
+    <td mat-cell *matCellDef="let row"> {{ row.id }} </td>
+  </ng-container>
+  <!-- Booking Id Column -->
+
+  <!-- Client Column -->
+  <ng-container matColumnDef="client">
+    <th mat-header-cell *matHeaderCellDef> Cliente </th>
+    <td mat-cell *matCellDef="let row"> {{row.firstName}} {{row.lastName}} </td>
+  </ng-container>
+  <!-- Client Column -->
+
+  <!-- Creation Date Column -->
+  <ng-container matColumnDef="creationDate">
+    <th mat-header-cell *matHeaderCellDef> Fecha de Creación </th>
+    <td mat-cell *matCellDef="let row"> {{ row.bookingTime }} </td>
+  </ng-container>
+  <!-- Creation Date Column -->
+
+  <!-- Address Column -->
+  <ng-container matColumnDef="address">
+    <th mat-header-cell *matHeaderCellDef> Dirección </th>
+    <td mat-cell *matCellDef="let row"> {{ row.streetAddress }} </td>
+  </ng-container>
+  <!-- Address Column -->
+
+  <!-- Price Column -->
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef> Precio </th>
+    <td mat-cell *matCellDef="let row"> {{ row.bookingPrice }} </td>
+  </ng-container>
+  <!-- Price Column -->
+
+</table>
